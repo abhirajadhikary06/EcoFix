@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}All Observations - EcoVision{% endblock %}
+
+{% block content %}
+<h1 class="title">All Environmental Observations</h1>
+
+<!-- Filtering Options -->
+<div class="field">
+    <label class="label">Filter by Observation Type:</label>
+    <div class="control">
+        <form method="get">
+            <div class="select">
+                <select name="type">
+                    <option value="">All</option>
+                    <option value="air_quality" {% if request.GET.type == 'air_quality' %}selected{% endif %}>Air Quality</option>
+                    <option value="water_quality" {% if request.GET.type == 'water_quality' %}selected{% endif %}>Water Quality</option>
+                    <option value="noise_pollution" {% if request.GET.type == 'noise_pollution' %}selected{% endif %}>Noise Pollution</option>
+                    <option value="other" {% if request.GET.type == 'other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+            <button class="button is-primary mt-2" type="submit">Filter</button>
+        </form>
+    </div>
+</div>
+
+<!-- List of Observations -->
+<div class="box">
+    {% if page_obj %}
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Observation Type</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obs in page_obj %}
+                    <tr>
+                        <td>{{ obs.user.username }}</td>
+                        <td>{{ obs.get_observation_type_display }}</td>
+                        <td>{{ obs.description|default:"No description provided" }}</td>
+                        <td>{{ obs.location|default:"Location not provided" }}</td>
+                        <td>{{ obs.timestamp }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No observations found.</p>
+    {% endif %}
+</div>
+
+<!-- Pagination Controls -->
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="button is-small">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="button is-small">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="button is-small">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="button is-small">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

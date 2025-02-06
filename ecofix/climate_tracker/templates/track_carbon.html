@@ -1,0 +1,30 @@
+<!-- templates/track_carbon.html -->
+{% extends "base.html" %}
+
+{% block title %}Track Carbon Footprint - EcoVision{% endblock %}
+
+{% block content %}
+<h1 class="title">Track Your Carbon Footprint</h1>
+<form method="post" class="box">
+    {% csrf_token %}
+    <div class="field">
+        <label class="label">Transportation</label>
+        <div class="control">
+            {{ form.transportation }}
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Diet</label>
+        <div class="control">
+            {{ form.diet }}
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Energy Usage</label>
+        <div class="control">
+            {{ form.energy_usage }}
+        </div>
+    </div>
+    <button class="button is-primary" type="submit">Submit</button>
+</form>
+{% endblock %}

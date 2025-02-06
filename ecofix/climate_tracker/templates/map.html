@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Environmental Map - EcoVision{% endblock %}
+
+{% block content %}
+<h1 class="title">Crowdsourced Environmental Map</h1>
+
+<!-- Filter by Observation Type -->
+<div class="field">
+    <label class="label">Filter by Observation Type:</label>
+    <div class="control">
+        <select id="filter-type">
+            <option value="">All</option>
+            <option value="air_quality">Air Quality</option>
+            <option value="water_quality">Water Quality</option>
+            <option value="noise_pollution">Noise Pollution</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+</div>
+
+<!-- Map Container -->
+<div id="map" style="height: 500px; width: 100%;"></div>
+
+<!-- Load Google Maps API and MarkerClusterer -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4y-YKK1KxniUfZC2PfFTlhjfCmi_tMuw"></script>
+<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+
+<script>
+    function initMap() {
+        // Initialize the map
+        const map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 0, lng: 0 },
+            zoom: 2,
+        });
+
+        // Parse observations from JSON
+        const observations = JSON.parse('{{ observations|escapejs }}');
+
+        // Define marker icons for each observation type
+        const markerIcons = {
+            'air_quality': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            'water_quality': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+            'noise_pollution': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+            'other': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+        };
+
+        const markers = [];
+
+        // Add markers for each observation
+        observations.forEach(obs => {
+            const position = {
+                lat: parseFloat(obs.fields.latitude),
+                lng: parseFloat(obs.fields.longitude),
+            };
+            const icon = markerIcons[obs.fields.observation_type] || markerIcons['other'];
+
+            // Create the marker
+            const marker = new google.maps.Marker({
+                position: position,
+                title: obs.fields.observation_type, // Used for filtering
+                icon: icon,
+                map: map, // Initially add all markers to the map
+            });
+
+            // Add an InfoWindow to display details
+            const infoWindow = new google.maps.InfoWindow({
+                content: `
+                    <strong>Type:</strong> ${obs.fields.observation_type}<br>
+                    <strong>User:</strong> ${obs.fields.user}<br>
+                    <strong>Location:</strong> ${obs.fields.location || 'N/A'}<br>
+                    <strong>Description:</strong> ${obs.fields.description || 'N/A'}<br>
+                    <strong>Timestamp:</strong> ${new Date(obs.fields.timestamp).toLocaleString()}
+                `,
+            });
+
+            // Open the InfoWindow when the marker is clicked
+            marker.addListener('click', () => {
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+        });
+
+        // Cluster markers
+        new markerClusterer.MarkerClusterer({ map, markers });
+
+        // Filter markers based on dropdown selection
+        document.getElementById('filter-type').addEventListener('change', (event) => {
+            const filterType = event.target.value;
+
+            markers.forEach(marker => {
+                const observationType = marker.getTitle(); // Get the marker's observation type
+                if (!filterType || observationType === filterType) {
+                    marker.setVisible(true); // Show the marker if it matches the filter or "All" is selected
+                } else {
+                    marker.setVisible(false); // Hide the marker if it doesn't match the filter
+                }
+            });
+        });
+    }
+
+    // Initialize the map when the page loads
+    window.onload = initMap;
+</script>
+{% endblock %}

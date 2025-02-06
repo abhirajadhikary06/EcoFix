@@ -1,0 +1,37 @@
+<!-- templates/register.html -->
+{% extends "base.html" %}
+
+{% block title %}Register - EcoVision{% endblock %}
+
+{% block content %}
+<h1 class="title">Register</h1>
+<form method="post" class="box">
+    {% csrf_token %}
+    <div class="field">
+        <label class="label">Username</label>
+        <div class="control">
+            {{ form.username }}
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+            {{ form.email }}
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+            {{ form.password1 }}
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Confirm Password</label>
+        <div class="control">
+            {{ form.password2 }}
+        </div>
+    </div>
+    <button class="button is-primary" type="submit">Register</button>
+</form>
+<p class="mt-4">Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+{% endblock %}

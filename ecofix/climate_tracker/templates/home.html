@@ -1,0 +1,21 @@
+<!-- templates/home.html -->
+{% extends "base.html" %}
+
+{% block title %}Dashboard - EcoVision{% endblock %}
+
+{% block content %}
+<h1 class="title">Welcome, {{ user.username }}!</h1>
+<p class="subtitle">This is your dashboard.</p>
+<div class="buttons">
+    <!-- Carbon Footprint Tracker -->
+    <a href="{% url 'track_carbon' %}" class="button is-primary">Track Carbon Footprint</a>
+
+    <!-- Sustainability Score -->
+    <a href="{% url 'calculate_sustainability' %}" class="button is-info">View Sustainability Score</a>
+    <a href="{% url 'all_observations' %}" class="button is-info">View All Observations</a>
+    <!-- Crowdsourced Environmental Monitoring -->
+    <a href="{% url 'submit_observation' %}" class="button is-warning">Submit an Observation</a>
+    <a href="{% url 'map_view' %}" class="button is-link">View Environmental Map</a>
+
+</div>
+{% endblock %}
