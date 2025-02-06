@@ -12,6 +12,12 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             border-radius:10px;
         }
+        /* Underline Effect for Active Navbar Item */
+        .navbar-item.is-active {
+            border-bottom: 3px solid #81c784;  /* Light green underline */
+            color: #81c784 !important;         /* Highlight the text color */
+            background-color: rgba(129, 199, 132, 0.1);  /* Subtle background for active link */
+        }
     
         .navbar-item, .navbar-link {
             color: #e0e0e0 !important;
@@ -93,19 +99,23 @@
 
         <div id="navbarMenu" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href="{% url 'track_carbon' %}">Track Carbon Footprint</a>
-                <a class="navbar-item" href="{% url 'calculate_sustainability' %}">Sustainability Score</a>
-                <a class="navbar-item navbar-button-warning" href="{% url 'submit_observation' %}">Submit an Observation</a>
-                <a class="navbar-item navbar-button-link" href="{% url 'map_view' %}">View Environmental Map</a>
-                <a class="navbar-item" href="{% url 'all_observations' %}">View All Observations</a>
+                <a class="navbar-item {% if request.resolver_match.url_name == 'track_carbon' %}is-active{% endif %}" href="{% url 'track_carbon' %}">Track Carbon Footprint</a>
+                
+                <a class="navbar-item {% if request.resolver_match.url_name == 'calculate_sustainability' %}is-active{% endif %}" href="{% url 'calculate_sustainability' %}">Sustainability Score</a>
+                
+                <a class="navbar-item {% if request.resolver_match.url_name == 'submit_observation' %}is-active{% endif %}" href="{% url 'submit_observation' %}">Submit an Observation</a>
+                
+                <a class="navbar-item {% if request.resolver_match.url_name == 'map_view' %}is-active{% endif %}" href="{% url 'map_view' %}">View Environmental Map</a>
+                
+                <a class="navbar-item {% if request.resolver_match.url_name == 'all_observations' %}is-active{% endif %}" href="{% url 'all_observations' %}">View All Observations</a>
             </div>
-
+            
             <div class="navbar-end">
                 {% if user.is_authenticated %}
-                    <a class="navbar-item last" href="{% url 'logout' %}">Logout</a>
+                    <a class="navbar-item last {% if request.resolver_match.url_name == 'logout' %}is-active{% endif %}" href="{% url 'logout' %}">Logout</a>
                 {% else %}
-                    <a class="navbar-item" href="{% url 'login' %}">Login</a>
-                    <a class="navbar-item" href="{% url 'register' %}">Register</a>
+                    <a class="navbar-item {% if request.resolver_match.url_name == 'login' %}is-active{% endif %}" href="{% url 'login' %}">Login</a>
+                    <a class="navbar-item {% if request.resolver_match.url_name == 'register' %}is-active{% endif %}" href="{% url 'register' %}">Register</a>
                 {% endif %}
             </div>
         </div>
