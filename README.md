@@ -1,7 +1,7 @@
 # 🌍 EcoFix - Your Environmental Guardian 🌿
 
 
-![EcoFix Banner](https://media.giphy.com/media/L8K62iTDkzGX6/giphy.gif)
+![EcoFix Banner](https://media.giphy.com/media/26tPoyDhjiJ2g7rEs/giphy.gif)
 
 ### Welcome to **EcoFix** – a comprehensive platform dedicated to promoting environmental awareness and sustainability! 🚀 Whether you're passionate about reducing your carbon footprint or tracking environmental observations, EcoFix has you covered.
 
