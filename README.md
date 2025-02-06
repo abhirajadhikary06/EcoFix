@@ -1,6 +1,8 @@
+Here’s your README.md with environmental-themed GIFs:
+
 # 🌍 EcoFix - Your Environmental Guardian 🌿
 
-![EcoFix Banner](https://media.giphy.com/media/3ohhwF34cGDoFFhRfy/giphy.gif)
+![EcoFix Banner](https://media.giphy.com/media/xT1XGzRKOfx7QmDGiA/giphy.gif)
 
 Welcome to **EcoFix** – a comprehensive platform dedicated to promoting environmental awareness and sustainability! 🚀 Whether you're passionate about reducing your carbon footprint or tracking environmental observations, EcoFix has you covered.
 
@@ -24,12 +26,12 @@ Welcome to **EcoFix** – a comprehensive platform dedicated to promoting enviro
 
 ## 🚀 Technologies Used
 
-- **Python** 🐍
-- **Django** 🌐
-- **HTML5 & CSS3** 🎨
-- **JavaScript** ✨
-- **Bulma CSS Framework** 🛠️
-- **SQLite** 🗄️
+- **Python** 🐍  
+- **Django** 🌐  
+- **HTML5 & CSS3** 🎨  
+- **JavaScript** ✨  
+- **Bulma CSS Framework** 🛠️  
+- **SQLite** 🗄️  
 
 ---
 
@@ -37,35 +39,39 @@ Welcome to **EcoFix** – a comprehensive platform dedicated to promoting enviro
 
 Follow these steps to get EcoFix up and running on your local machine! 🖥️💡
 
+```bash
 ### 1. Clone the Repository
 
-```bash
+
 git clone https://github.com/abhirajadhikary06/EcoFix.git
 cd EcoFix
 
-2. Set Up the Virtual Environment
+### 2. Set Up the Virtual Environment
 
 python -m venv env
 source env/bin/activate  # For Linux/Mac
 # OR
 env\\Scripts\\activate  # For Windows
 
-3. Install Dependencies
+### 3. Install Dependencies
 
 pip install -r requirements.txt
 
-4. Run Migrations
+### 4. Run Migrations
 
 python manage.py makemigrations
 python manage.py migrate
 
-5. Start the Server 🚀
+### 5. Start the Server 🚀
 
 python manage.py runserver
 
 Now, open your browser and go to http://127.0.0.1:8000 to explore EcoFix! 🌿
 
-🖼️ Screenshots
+```
+
+
+## 🖼️ Screenshots
 
 🌍 Home Page
 
@@ -73,7 +79,7 @@ Now, open your browser and go to http://127.0.0.1:8000 to explore EcoFix! 🌿
 
 📊 Track Carbon Footprint
 
-🤝 Contributing
+## 🤝 Contributing
 
 We welcome contributions! 👐 Follow these simple steps:
 	1.	Fork the repository 🍴
@@ -82,11 +88,11 @@ We welcome contributions! 👐 Follow these simple steps:
 	4.	Push to the branch (git push origin feature-name) 🚀
 	5.	Open a Pull Request 📬
 
-📜 License
+## 📜 License
 
 This project is licensed under the MIT License.
 
-💬 Contact
+## 💬 Contact
 
 For questions, suggestions, or collaboration opportunities, feel free to reach out:
 	•	Abhiraj Adhikary - GitHub Profile 👨‍💻
@@ -95,5 +101,3 @@ For questions, suggestions, or collaboration opportunities, feel free to reach o
 ⭐ Show Your Support
 
 If you like this project, don’t forget to star 🌟 the repo and share it with your friends! Let’s make the world a better place together! 🌍💚
-
-Just save this content as **README.md** in your project directory, and you're all set! Let me know if you need more tweaks or extra details! 😊🚀
