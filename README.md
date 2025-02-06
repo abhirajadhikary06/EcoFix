@@ -1,10 +1,8 @@
-Here’s your README.md with environmental-themed GIFs:
-
 # 🌍 EcoFix - Your Environmental Guardian 🌿
 
-![EcoFix Banner](https://media.giphy.com/media/xT1XGzRKOfx7QmDGiA/giphy.gif)
+![EcoFix Banner](https://media.giphy.com/media/26gslXtIxtpY2jbpu/giphy.gif)
 
-Welcome to **EcoFix** – a comprehensive platform dedicated to promoting environmental awareness and sustainability! 🚀 Whether you're passionate about reducing your carbon footprint or tracking environmental observations, EcoFix has you covered.
+### Welcome to **EcoFix** – a comprehensive platform dedicated to promoting environmental awareness and sustainability! 🚀 Whether you're passionate about reducing your carbon footprint or tracking environmental observations, EcoFix has you covered.
 
 ---
 
