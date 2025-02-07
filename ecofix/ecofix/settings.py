@@ -121,9 +121,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# settings.py
-
-LOGIN_REDIRECT_URL = 'home'  # This matches the name of your login URL pattern
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
 
 GEMINI_API_KEY = "AIzaSyBlDythwXjjVg5DsCvL5iowAKTPt0vi1eQ"
 VERTEX_AI_PROJECT_ID = "round-rain-449905-n4"

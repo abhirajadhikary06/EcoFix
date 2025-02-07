@@ -41,6 +41,8 @@ def user_login(request):
 # Home View (Protected by @login_required)
 @login_required
 def home(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     return render(request, 'home.html')
 
 # Carbon Footprint Tracker View
@@ -113,6 +115,7 @@ def map_view(request):
     observations_json = serialize('json', observations, fields=('latitude', 'longitude', 'observation_type'))
     return render(request, 'map.html', {'observations': observations_json})
 
+@login_required
 def all_observations(request):
     """
     Displays a paginated list of all environmental observations submitted by users.
