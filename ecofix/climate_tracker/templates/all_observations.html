@@ -5,6 +5,14 @@
 {% block content %}
 <style>
     /* Background and Text Colors */
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .navbar {
+        margin-top: 0;  /* Ensure the navbar starts at the very top */
+    }
     body {
         background: linear-gradient(135deg, rgb(0, 0, 0), rgb(15, 60, 5), rgb(0, 0, 0));
         color: #e0e0e0;
@@ -19,13 +27,26 @@
         font-weight: bold;
     }
 
+    .field {
+        display: flex;
+        justify-content: center; /* Centers the content horizontally */
+        align-items: center; /* Aligns items vertically */
+        margin-bottom: 20px;
+    }
+    
+    .control form {
+        display: flex;
+        gap: 10px; /* Adds spacing between the dropdown and button */
+        align-items: center;
+    }
+
     .label {
         color: #e0e0e0;
         font-weight: bold;
     }
 
     .box {
-        background: transparent;
+        background: black;
         border-radius: 10px;
         padding: 30px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
