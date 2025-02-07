@@ -1,26 +1,132 @@
 {% extends "base.html" %}
 
-{% block title %}Environmental Map - EcoVision{% endblock %}
+{% block title %}EcoFix - Home{% endblock %}
 
 {% block content %}
-<h1 class="title">Crowdsourced Environmental Map</h1>
+<!-- Custom Dark Theme CSS -->
+<style>
+    body {
+        background: linear-gradient(135deg, rgb(0, 0, 0), rgb(15, 60, 5), rgb(0, 0, 0));
+        color: #e0e0e0;
+        font-family: 'Arial', sans-serif;
+    }
 
-<!-- Filter by Observation Type -->
-<div class="field">
-    <label class="label">Filter by Observation Type:</label>
-    <div class="control">
-        <select id="filter-type">
-            <option value="">All</option>
-            <option value="air_quality">Air Quality</option>
-            <option value="water_quality">Water Quality</option>
-            <option value="noise_pollution">Noise Pollution</option>
-            <option value="other">Other</option>
-        </select>
+    .hero.is-dark {
+        background-color: transparent;
+        backdrop-filter: blur(5px); /* Adds a subtle blur effect */
+    }
+
+    .section.has-background-black, 
+    .section.has-background-black-ter {
+        background-color: transparent;
+        border-radius: 8px;
+        padding: 2rem 1.5rem;
+        backdrop-filter: blur(4px); /* Slight blur for readability */
+    }
+
+    h1.title, h2.title {
+        color: #00d1b2;  /* Teal accent for headings */
+    }
+
+    p.subtitle, p.has-text-grey-light {
+        color: #b0b0b0;
+    }
+
+    .button.is-link {
+        background-color: #00d1b2;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .button.is-link:hover {
+        background-color: #00b89c;
+    }
+
+    /* Map Container */
+    #map {
+        border: 2px solid #00d1b2;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Dropdown Styling */
+    .select.is-dark select {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+        border: 1px solid #00d1b2;
+    }
+
+    /* Filter label */
+    .label {
+        font-weight: bold;
+        color: #e0e0e0;
+    }
+
+    .container {
+        background : transparent;
+    }
+
+    .has-background-black {
+        background: transparent;
+    }
+</style>
+
+<!-- Welcome Section -->
+{% comment %} <section class="hero is-dark is-bold">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">🌍 Welcome to EcoFix!</h1>
+            <p class="subtitle">Your platform for tracking and contributing to a healthier planet. 🌱</p>
+        </div>
     </div>
-</div>
+</section> {% endcomment %}
 
-<!-- Map Container -->
-<div id="map" style="height: 500px; width: 100%;"></div>
+<!-- Introduction to EcoFix -->
+{% comment %} <section class="section has-background-black-ter">
+    <div class="container">
+        <h2 class="title has-text-centered">What is EcoFix?</h2>
+        <p class="has-text-centered">
+            EcoFix empowers individuals to contribute to environmental monitoring by submitting observations and tracking their environmental impact.
+            Together, we can make the world a cleaner, greener place. 🌿
+        </p>
+    </div>
+</section> {% endcomment %}
+
+<!-- Crowdsourced Environmental Map -->
+<section class="section has-background-black">
+    <div class="container">
+        <h2 class="title has-text-centered">🌐 Crowdsourced Environmental Map</h2>
+        <p class="has-text-centered">Explore real-time environmental observations submitted by users around the world! 🌍</p>
+
+        <!-- Filter by Observation Type -->
+        <div class="field is-grouped is-grouped-centered">
+            <label class="label mr-2">Filter by Observation Type:</label>
+            <div class="control">
+                <div class="select is-dark">
+                    <select id="filter-type">
+                        <option value="">All</option>
+                        <option value="air_quality">Air Quality</option>
+                        <option value="water_quality">Water Quality</option>
+                        <option value="noise_pollution">Noise Pollution</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Container -->
+        <div id="map" style="height: 500px; width: 100%;"></div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="section has-background-black-ter">
+    <div class="container has-text-centered">
+        <h2 class="title">🌟 Join the Eco Movement!</h2>
+        <p>Submit your observations and track your carbon footprint to make a difference.</p>
+        <a href="{% url 'submit_observation' %}" class="button is-link is-large mt-3">Submit an Observation 📸</a>
+    </div>
+</section>
 
 <!-- Load Google Maps API and MarkerClusterer -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4y-YKK1KxniUfZC2PfFTlhjfCmi_tMuw"></script>
@@ -28,16 +134,19 @@
 
 <script>
     function initMap() {
-        // Initialize the map
         const map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 0, lng: 0 },
+            center: { lat: 20, lng: 0 },
             zoom: 2,
+            styles: [
+                { elementType: 'geometry', stylers: [{ color: '#1d1d1d' }] },
+                { elementType: 'labels.text.fill', stylers: [{ color: '#e0e0e0' }] },
+                { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#757575' }] },
+                { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#000000' }] },
+            ],
         });
 
-        // Parse observations from JSON
         const observations = JSON.parse('{{ observations|escapejs }}');
 
-        // Define marker icons for each observation type
         const markerIcons = {
             'air_quality': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
             'water_quality': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
@@ -47,7 +156,6 @@
 
         const markers = [];
 
-        // Add markers for each observation
         observations.forEach(obs => {
             const position = {
                 lat: parseFloat(obs.fields.latitude),
@@ -55,15 +163,13 @@
             };
             const icon = markerIcons[obs.fields.observation_type] || markerIcons['other'];
 
-            // Create the marker
             const marker = new google.maps.Marker({
                 position: position,
-                title: obs.fields.observation_type, // Used for filtering
+                title: obs.fields.observation_type,
                 icon: icon,
-                map: map, // Initially add all markers to the map
+                map: map,
             });
 
-            // Add an InfoWindow to display details
             const infoWindow = new google.maps.InfoWindow({
                 content: `
                     <strong>Type:</strong> ${obs.fields.observation_type}<br>
@@ -74,7 +180,6 @@
                 `,
             });
 
-            // Open the InfoWindow when the marker is clicked
             marker.addListener('click', () => {
                 infoWindow.open(map, marker);
             });
@@ -82,25 +187,18 @@
             markers.push(marker);
         });
 
-        // Cluster markers
         new markerClusterer.MarkerClusterer({ map, markers });
 
-        // Filter markers based on dropdown selection
         document.getElementById('filter-type').addEventListener('change', (event) => {
             const filterType = event.target.value;
-
             markers.forEach(marker => {
-                const observationType = marker.getTitle(); // Get the marker's observation type
-                if (!filterType || observationType === filterType) {
-                    marker.setVisible(true); // Show the marker if it matches the filter or "All" is selected
-                } else {
-                    marker.setVisible(false); // Hide the marker if it doesn't match the filter
-                }
+                const observationType = marker.getTitle();
+                marker.setVisible(!filterType || observationType === filterType);
             });
         });
     }
 
-    // Initialize the map when the page loads
     window.onload = initMap;
 </script>
+
 {% endblock %}

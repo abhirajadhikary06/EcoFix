@@ -3,7 +3,92 @@
 {% block title %}All Observations - EcoVision{% endblock %}
 
 {% block content %}
-<h1 class="title">All Environmental Observations</h1>
+<style>
+    /* Background and Text Colors */
+    body {
+        background: linear-gradient(135deg, rgb(0, 0, 0), rgb(15, 60, 5), rgb(0, 0, 0));
+        color: #e0e0e0;
+        font-family: Arial, sans-serif;
+    }
+
+    h1.title {
+        color: #fff;
+        font-size: 2.5em;
+        padding: 30px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .label {
+        color: #e0e0e0;
+        font-weight: bold;
+    }
+
+    .box {
+        background: transparent;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        color: #e0e0e0;
+    }
+
+    .mt-2 {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .table {
+        background: transparent;
+        color: #e0e0e0;
+    }
+
+    .table th {
+        background-color: transparent;
+        color: #ffffff;
+    }
+
+    .table td {
+        background-color: transparent;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: transparent;
+    }
+
+    .button {
+        background: linear-gradient(135deg, #fdd835,rgb(217, 159, 11));
+        color:rgb(255, 255, 255);
+        border-radius: 5px;
+        padding: 8px 15px;
+        font-size: 1.1em;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .button:hover {
+        transform: scale(1.05);
+        background-color: #fbc02d;
+    }
+
+    .pagination .current {
+        color: #fdd835;
+        font-weight: bold;
+    }
+
+    select {
+        background-color: transparent;
+        color: #e0e0e0;
+        border: 1px solid #bbb;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #fdd835;
+    }
+</style>
+
+<h1 class="title">💡 All Environmental Observations</h1>
 
 <!-- Filtering Options -->
 <div class="field">
