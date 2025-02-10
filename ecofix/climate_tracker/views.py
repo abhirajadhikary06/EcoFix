@@ -8,8 +8,10 @@ from django.core.serializers import serialize
 from django.contrib import messages
 from django.core.paginator import Paginator
 from .forms import CustomUserCreationForm, UserActivityForm, GreenActionSimulatorForm, ObservationForm, CustomAuthenticationForm
-from .utils import calculate_carbon_footprint, calculate_sustainability_score, format_chart_data
+from .utils import calculate_carbon_footprint, calculate_sustainability_score, format_chart_data, generate_chat_response
 from .models import UserActivity, UserProfile, SustainabilityScore, EnvironmentalObservation
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 gmaps = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
 
@@ -158,3 +160,29 @@ def all_observations(request):
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+import logging
+
+logger = logging.getLogger(__name__)
+
+@csrf_exempt
+def chatbot(request):
+    if request.method == 'POST':
+        # Handle POST requests for chatbot responses
+        user_message = request.POST.get('message', '').strip()
+
+        if not user_message:
+            return JsonResponse({'error': 'Message cannot be empty'}, status=400)
+
+        try:
+            bot_response = generate_chat_response(user_message)
+            return JsonResponse({'response': bot_response})
+        except Exception as e:
+            logger.error(f"Error in chatbot view: {str(e)}")
+            return JsonResponse({'error': 'An error occurred while processing your request. Please try again later.'}, status=500)
+
+    elif request.method == 'GET':
+        # Render the chat interface for GET requests
+        return render(request, 'chatbot.html')
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)

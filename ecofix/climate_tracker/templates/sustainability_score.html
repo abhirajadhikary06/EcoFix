@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Sustainability Score - EcoVision{% endblock %}
+{% block title %}Sustainability Score - EcoFix{% endblock %}
 
 {% block content %}
 <style>
@@ -17,14 +17,13 @@
         color: #E0E0E0;
     }
 
-    .title {
-        color: #81C784;  /* Light Green */
-        text-align: center;
-        margin-bottom: 1.5rem;
-        font-size: 2.5rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
+    h1.title {
+            color: #fff;
+            font-size: 2.5em;
+            padding: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
 
     .box {
         background: linear-gradient(135deg, #263238, #37474F);
@@ -95,9 +94,8 @@
         }
     }
 </style>
-
+<h1 class="title">💯 Your Sustainability Score</h1>
 <div class="container">
-    <h1 class="title">🌱 Your Sustainability Score</h1>
 
     <div class="box">
         <h2 class="subtitle"><b>Score:</b> {{ latest_result.score }}</h2>
@@ -147,30 +145,33 @@
         const data = google.visualization.arrayToDataTable(chartData);
 
         const options = {
-            title: 'Energy Usage vs Sustainability Score',
-            backgroundColor: 'transparent',  // Transparent background
-            curveType: 'function',
-            legend: { position: 'top', textStyle: { color: '#E0E0E0' } },
-            height: 400,
-            chartArea: { width: '80%', height: '70%' },
-            hAxis: {
-                title: 'Date',
-                textStyle: { color: '#E0E0E0' },
-                titleTextStyle: { color: '#E0E0E0' },
-                slantedText: true,
-                slantedTextAngle: 30
-            },
-            vAxis: {
-                title: 'Values',
-                textStyle: { color: '#E0E0E0' },
-                titleTextStyle: { color: '#E0E0E0' },
-                minValue: 0
-            },
-            series: {
-                0: { color: '#FF6384' },  // Energy Usage (Red)
-                1: { color: '#36A2EB' }   // Sustainability Score (Blue)
-            }
-        };
+    title: 'Energy Usage vs Sustainability Score',
+    titleTextStyle: { color: '#FFFFFF' },
+    backgroundColor: 'transparent',  // Transparent background
+    curveType: 'function',
+    legend: { position: 'top', textStyle: { color: '#E0E0E0' } },
+    height: 400,
+    chartArea: { width: '80%', height: '70%' },
+    hAxis: {
+        title: 'Date',
+        textStyle: { color: '#E0E0E0' },
+        titleTextStyle: { color: '#E0E0E0' },
+        slantedText: true,
+        slantedTextAngle: 30,
+        gridlines: { color: 'transparent' }  // Removes horizontal grid lines
+    },
+    vAxis: {
+        title: 'Values',
+        textStyle: { color: '#E0E0E0' },
+        titleTextStyle: { color: '#E0E0E0' },
+        minValue: 0,
+        gridlines: { color: 'transparent' }  // Removes vertical grid lines
+    },
+    series: {
+        0: { color: '#fbc02d' },  // Energy Usage (Yellow)
+        1: { color: '#388e3c' }   // Sustainability Score (Green)
+    }
+};
 
         const chart = new google.visualization.LineChart(document.getElementById('historicalChart'));
         chart.draw(data, options);

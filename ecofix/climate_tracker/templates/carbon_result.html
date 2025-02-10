@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Carbon Footprint Result - EcoVision{% endblock %}
+{% block title %}Carbon Footprint Result - EcoFix{% endblock %}
 
 {% block content %}
 <style>
@@ -20,16 +20,16 @@
         border-radius: 15px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
         text-align: center;
-        margin-top: 150px;
+        margin-top: 20px;
     }
 
-    .title {
-        color: #81C784;  /* Light Green */
-        font-size: 2.5rem;
-        margin-bottom: 1.5rem;  /* Adds space between title and box */
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
+    h1.title {
+            color: #fff;
+            font-size: 2.5em;
+            padding: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
 
     .box {
         background: linear-gradient(135deg, #263238, #37474F);  /* Dark Grey */
@@ -80,10 +80,8 @@
     }
 </style>
 
+<h1 class="title">👣 Your Carbon Footprint</h1>
 <div class="content-container">
-    <!-- Heading outside the box -->
-    <h1 class="title">🌍 Your Carbon Footprint</h1>
-
     <!-- Box with footprint details -->
     <div class="box">
         <p>Your estimated carbon footprint is <strong>{{ footprint }} kg CO2e</strong>.</p>

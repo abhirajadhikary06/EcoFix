@@ -104,3 +104,51 @@ def format_chart_data(user_activities):
         for activity in recent_activities
     ]
     return json.dumps(chart_data)
+
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+
+# Initialize conversation history
+conversation_history = []
+
+def generate_chat_response(user_message):
+    global conversation_history
+
+    try:
+        # Step 1: Configure the API
+        genai.configure(api_key=settings.GEMINI_API_KEY)
+        model = genai.GenerativeModel('gemini-pro')
+
+        # Step 2: Add user message to history
+        conversation_history.append(f"User: {user_message}")
+
+        # Step 3: Limit conversation history to the last 5 messages
+        conversation_history = conversation_history[-5:]
+
+        # Step 4: Build the prompt with history
+        prompt = f"""
+        You are EcoFix Bot, an AI assistant focused on tackling climate change through innovation and collaboration.
+        Below is the conversation history:
+        {'\n'.join(conversation_history)}
+        Now, respond to the following user query:
+        User: {user_message}
+        """
+
+        logging.debug(f"Sending prompt to Gemini API: {prompt}")
+
+        # Step 5: Generate a response
+        response = model.generate_content(prompt)
+        assistant_response = response.text
+
+        # Step 6: Add assistant response to history
+        conversation_history.append(f"Assistant: {assistant_response}")
+
+        logging.debug(f"Received response from Gemini API: {assistant_response}")
+        return assistant_response
+
+    except Exception as e:
+        # Log the error and re-raise it
+        logging.error(f"Error in generate_chat_response: {str(e)}")
+        raise  # Re-raise the exception to propagate it to the view

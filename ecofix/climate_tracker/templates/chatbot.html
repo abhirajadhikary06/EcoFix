@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Chat with EcoFix Bot{% endblock %}
+
+{% block content %}
+<h1 class="title">Chat with EcoFix Bot</h1>
+<div class="box">
+    <!-- Chat Box -->
+    <div id="chat-box" style="height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #f9f9f9; border-radius: 5px;"></div>
+
+    <!-- Input Area -->
+    <div style="display: flex; gap: 10px;">
+        <input type="text" id="user-input" placeholder="Type your message..." style="flex-grow: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <button id="send-btn" class="button is-primary" style="display: flex; align-items: center; gap: 5px;"></button>
+            <span id="btn-text">Send</span>
+            <span id="loading-spinner" class="spinner" style="display: none; width: 16px; height: 16px; border: 2px solid #fff; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite;"></span>
+        </button>
+    </div>
+</div>
+
+<style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const btnText = document.getElementById('btn-text');
+    const loadingSpinner = document.getElementById('loading-spinner');
+
+    // Function to append messages to the chat box
+    function appendMessage(sender, message) {
+        const messageElement = document.createElement('div');
+        messageElement.style.marginBottom = '10px';
+        messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+    }
+
+    // Function to send message
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        // Append user message
+        appendMessage('You', message);
+
+        // Clear input
+        userInput.value = '';
+
+        // Show loading spinner
+        btnText.style.display = 'none';
+        loadingSpinner.style.display = 'inline-block';
+
+        try {
+            // Send message to the server
+            const response = await fetch('/chatbot/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `message=${encodeURIComponent(message)}`
+            });
+
+            const data = await response.json();
+            if (data.response) {
+                appendMessage('Bot', data.response);
+            } else if (data.error) {
+                appendMessage('Bot', `Error: ${data.error}`);
+            }
+        } catch (error) {
+            appendMessage('Bot', 'An error occurred while processing your request.');
+        } finally {
+            // Hide loading spinner
+            btnText.style.display = 'inline';
+            loadingSpinner.style.display = 'none';
+        }
+    }
+
+    // Event listener for the Send button
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Event listener for the Enter key
+    userInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+</script>
+{% endblock %}

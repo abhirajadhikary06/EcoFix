@@ -1,16 +1,9 @@
 <!-- templates/home.html -->
 {% extends "base.html" %}
 
-{% block title %}Dashboard - EcoVision{% endblock %}
+{% block title %}Dashboard - EcoFix{% endblock %}
 
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - EcoVision</title>
-    <link rel="stylesheet" href="path_to_your_stylesheet.css">
+{% block content %} 
     <style>
 
         /* Dark Gradient Background */
@@ -124,6 +117,31 @@
             margin-top: 20px;
             text-align: center;
         }
+
+        /* Bottom-Right Corner Button */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;  /* Set width for circular shape */
+            height: 60px;  /* Set height for circular shape */
+            border-radius: 50%;  /* Circular button */
+            background: transparent;  /* Transparent background */
+            border: 2px solid #00ff00;  /* Green border */
+            box-shadow: 0 0 10px #00ff00;  /* Green glowing effect */
+            color: white;
+            font-size: 1.5em;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .floating-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #00ff00;  /* Enhanced green glowing effect on hover */
+        }
     </style>
 </head>
 <body>
@@ -150,7 +168,6 @@
         <span>🔋</span>
         <span>♻️</span>
     </div>
+    <a href="{% url 'chatbot' %}" class="floating-button">🕹️</a>
 
-</body>
-</html>
 {% endblock %}
