@@ -15,10 +15,25 @@ class UserActivity(models.Model):
     """
     Stores daily activities of users for carbon footprint tracking.
     """
+    TRANSPORTATION_CHOICES = [
+        ('car', 'Car'),
+        ('bus', 'Bus'),
+        ('bike', 'Bike'),
+        ('walk', 'Walk'),
+        ('train', 'Train'),
+    ]
+
+    DIET_CHOICES = [
+        ('vegan', 'Vegan'),
+        ('vegetarian', 'Vegetarian'),
+        ('omnivore', 'Omnivore'),
+        ('pescatarian', 'Pescatarian'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    transportation = models.CharField(max_length=50)
-    diet = models.CharField(max_length=50)
-    energy_usage = models.FloatField()
+    transportation = models.CharField(max_length=50, choices=TRANSPORTATION_CHOICES)
+    diet = models.CharField(max_length=50, choices=DIET_CHOICES)
+    energy_usage = models.FloatField(help_text="Energy usage in kWh/day. Must be between 0 and 100.")
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):

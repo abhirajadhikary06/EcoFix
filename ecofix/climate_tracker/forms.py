@@ -21,6 +21,17 @@ class UserActivityForm(forms.ModelForm):
         model = UserActivity
         fields = ['transportation', 'diet', 'energy_usage']
 
+    def clean_energy_usage(self):
+        """
+        Validate the energy_usage field to ensure it is within a realistic range.
+        """
+        energy_usage = self.cleaned_data.get('energy_usage')
+        if energy_usage < 0:
+            raise forms.ValidationError("Energy usage cannot be negative.")
+        if energy_usage > 100:
+            raise forms.ValidationError("Energy usage cannot exceed 100 kWh/day.")
+        return energy_usage
+
 
 class CustomAuthenticationForm(AuthenticationForm):
     """

@@ -1,4 +1,5 @@
 import googlemaps
+import json
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
@@ -7,7 +8,7 @@ from django.core.serializers import serialize
 from django.contrib import messages
 from django.core.paginator import Paginator
 from .forms import CustomUserCreationForm, UserActivityForm, GreenActionSimulatorForm, ObservationForm, CustomAuthenticationForm
-from .utils import calculate_carbon_footprint, calculate_sustainability_score
+from .utils import calculate_carbon_footprint, calculate_sustainability_score, format_chart_data
 from .models import UserActivity, UserProfile, SustainabilityScore, EnvironmentalObservation
 
 gmaps = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
@@ -55,28 +56,45 @@ def track_carbon_footprint(request):
             activity.user = request.user
             activity.save()
 
-            # Calculate carbon footprint
-            user_input = f"Transportation: {activity.transportation}, Diet: {activity.diet}, Energy Usage: {activity.energy_usage}"
+            # Prepare user input for carbon footprint calculation
+            user_input = f"Transportation: {activity.transportation}, Diet: {activity.diet}, Energy Usage: {activity.energy_usage} kWh/day"
+
             try:
+                # Calculate and parse the carbon footprint
                 footprint = calculate_carbon_footprint(user_input)
             except ValueError as e:
                 return render(request, 'error.html', {'message': str(e)})
-            
+
+            # Pass the parsed carbon footprint to the template
             return render(request, 'carbon_result.html', {'footprint': footprint})
     else:
         form = UserActivityForm()
     return render(request, 'track_carbon.html', {'form': form})
 
-
 @login_required
 def calculate_sustainability(request):
     """
-    View to calculate the user's sustainability score using Gemini API.
+    View to calculate the user's latest sustainability score and provide historical trends.
     """
-    user_activities = UserActivity.objects.filter(user=request.user)
-    result = calculate_sustainability_score(user_activities)
+    # Fetch all activities for the logged-in user, ordered by date (newest first)
+    user_activities = UserActivity.objects.filter(user=request.user).order_by('-date')
 
-    return render(request, 'sustainability_score.html', {'result': result})
+    # Initialize default values
+    latest_result = {'score': None, 'breakdown': [], 'suggestions': []}
+    chart_data = "[]"
+
+    # Calculate the latest sustainability score
+    if user_activities.exists():
+        latest_activity = user_activities.first()  # Get the most recent activity
+        latest_result = calculate_sustainability_score([latest_activity])
+
+        # Format historical data for the chart
+        chart_data = format_chart_data(user_activities)
+
+    return render(request, 'sustainability_score.html', {
+        'latest_result': latest_result,
+        'chart_data': chart_data
+    })
 
 
 @login_required
