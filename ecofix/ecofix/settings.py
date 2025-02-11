@@ -131,3 +131,7 @@ VERTEX_AI_ENDPOINT_ID = "https://asia-south1-aiplatform.googleapis.com"
 GOOGLE_MAPS_API_KEY = "AIzaSyB4y-YKK1KxniUfZC2PfFTlhjfCmi_tMuw"
 
 LOGOUT_REDIRECT_URL = 'login'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-idx-ecofix-1739258111926.cluster-nx3nmmkbnfe54q3dd4pfbgilpc.cloudworkstations.dev',
+]
