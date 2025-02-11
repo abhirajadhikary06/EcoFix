@@ -143,7 +143,7 @@ def generate_chat_response(user_message):
         assistant_response = response.text
 
         # Step 6: Add assistant response to history
-        conversation_history.append(f"Assistant: {assistant_response}")
+        conversation_history.append(f"{assistant_response}")
 
         logging.debug(f"Received response from Gemini API: {assistant_response}")
         return assistant_response
