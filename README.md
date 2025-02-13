@@ -95,8 +95,7 @@ This project is licensed under the MIT License.
 ## 💬 Contact
 
 For questions, suggestions, or collaboration opportunities, feel free to reach out:
-	•	Abhiraj Adhikary - GitHub Profile 👨‍💻
-	•	Email: abhirajadhikary@example.com 📧
+	•	Email: abhirajadhikary06@gmail.com 📧
 
 ⭐ Show Your Support
 
